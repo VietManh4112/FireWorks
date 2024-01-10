@@ -14,6 +14,10 @@
 #### 3. edge.js
 - Chứa source code được viết bằng js để tạo hiệu ứng tuyết rơi và hiển thị hình ảnh hoa mai ở trên màn hình
 
+### 4. GIEOQUE
+- 4.1 img: Chứa các ảnh được sử dụng làm giao diện chính.
+- 4.2 shakehexagram.html: Chứa source code được viết bằng html, css, js để làm gia diện gieo quẻ.
+
 ***
 
 ## II. Cách chạy chương trình (IDE sử dụng là VSCode)

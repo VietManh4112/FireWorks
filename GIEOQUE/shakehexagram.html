@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gieo Quẻ</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <style>
+        body {
+            font-family: 'Pacifico', cursive;
+            color: #FFD700;
+            margin: 0 20px;
+            background-color: rgba(132, 28, 35, 0.9);
+            background-image: url(https://hebesbychloe.com/wp-content/uploads/2024/01/GameNewYear_MOON-1.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 42%;
+        }
+
+        h3 {
+            margin: 8px;
+        }
+
+        .sidebar {
+            width: 24vw;
+            background-image: url('./img/bg.png');
+            background-repeat: no-repeat;
+            background-size: 24vw auto;
+            background-position: center center;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 70vh;
+            margin-left: 3vw;
+        }
+
+        .container {
+            position: relative;
+            width: 44vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rightbar {
+            flex: 1;
+            background-image: url('./img/bg.png');
+            background-repeat: no-repeat;
+            background-size: 24vw auto;
+            background-position: center center;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            height: 70vh;
+            margin-right: 3vw;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+        }
+
+        p {
+            margin: 6px;
+        }
+
+        #sidebar__text,
+        #rightbar__text,
+        .modal {
+            font-weight: 200;
+            font-size: 19px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            margin: 5% auto;
+            padding: 20px;
+            width: 50%;
+            text-align: center;
+            color: red;
+            background-color: #F9F2E0;
+            box-shadow: 9px 9px 16px rgba(0, 0, 0, 0.44);
+            border-radius: 20px;
+            transform-origin: center center;
+            transform: scale(0);
+            transition: transform 1s;
+            animation: expandModal 1s;
+            animation-fill-mode: forwards;
+            position: relative;
+        }
+
+        .modal-content__flower {
+            position: absolute;
+            top: -50px;
+            z-index: 10;
+            width: 150px;
+            animation: zoom 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes zoom {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes expandModal {
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .overlay-image {
+            position: absolute;
+            top: -10vh;
+            width: 5.88vw;
+            z-index: -1;
+        }
+
+        @keyframes bounce1 {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-20px);
+            }
+
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes bounce2 {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-30px);
+            }
+
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes bounce3 {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-25px);
+            }
+
+            60% {
+                transform: translateY(-12.5px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!--hình ảnh nút gieo quẻ-->
+    <div style="position: absolute;left:50%; transform: translate(-50%, 72.5vh);"><img src="./img/anhnut.png"
+            style="width: 12vw;" id="shakeTheHexagram" class="btn"></div>
+    <div style="display: flex; margin-top: 6%;">
+        <!--sidebar chứa phần thông tin quẻ-->
+        <div class="sidebar">
+            <div style="display: flex; align-items: center; justify-content: center; margin-top: 5vh;"><img
+                    src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Yin_yang.gif"
+                    style="width: 25px; height: 26px;">
+                <h2 id="sidebar__title1">Quẻ số</h2>
+            </div>
+            <h3 id="sidebar__title2" style="text-align: center;"></h3>
+            <div id="sidebar__text" style="text-align: center;"></div>
+        </div>
+        <!--container chứa ảnh xóc quẻ và 3 quẻ xăm-->
+        <div class="container"><img src="https://hebesbychloe.com/wp-content/uploads/2024/01/GameNewYear2024-1-Que.png"
+                class="overlay-image" style="left: 14vw;animation: bounce1 2s infinite;"><img
+                src="https://hebesbychloe.com/wp-content/uploads/2024/01/GameNewYear2024-1-Que.png"
+                class="overlay-image" style="left: 20vw;animation: bounce2 1.75s infinite;"><img
+                src="https://hebesbychloe.com/wp-content/uploads/2024/01/GameNewYear2024-1-Que.png"
+                class="overlay-image" style="left: 23.53vw; top: -50px;animation: bounce3 2.25s infinite;"><img
+                src="./img/xoc.png" class="shakeable-image" id="shakeTheImage"
+                style="width: 41.18vw;height: 75vh;margin-left: 0.6vw;"></div>
+        <!--rightbar chứa phần ý nghĩa quẻ-->
+        <div class="rightbar">
+            <div style="text-align: center; margin-top: 60px; margin-left: 20px;">
+                <h2>Ý Nghĩa Quẻ</h2>
+            </div>
+            <div id="rightbar__text" style="text-align: center;"></div>
+        </div>
+        <!--modal hiển thị trước khi rút quẻ-->
+        <div id="textModal" class="modal">
+            <div class="modal-content">
+                <div><img src="./img/hoadao.png" class="modal-content__flower" style="left: -60px;"><img
+                        src="./img/hoadao.png" class="modal-content__flower" style="right: -60px;"></div><img
+                    src="./img/quanam.png" style="width: 180px;">
+                <div>“Chí thành cung thỉnh Phục Hi, Thần Nông, Văn Vương, Chu Công, Khổng Tử, Ngũ Đại Thánh Nhân và Quỷ
+                    Cốc Tiên Sinh, Chiêm Quái Đồng Tử, Phiên Quái Đồng Lang, cùng tất cả chư vị Quá Vãng Thần Kỳ trên hư
+                    không lai lâm chứng minh.<div>-Hôm nay là ngày ……….. tháng ……..năm ………….</div>
+                    <div>-Đệ tử tên họ ………….., tuổi …………, hiện ở tại ấp, xã, huyện……………</div> Đang có việc nghi lo chưa
+                    quyết, thành tâm bái thỉnh, xin cho được một trong 32 quẻ. Xin đừng theo ý của người, không theo ý
+                    ma quỷ, kính xin chư vị hạ giáng cho biết cát hung họa phước, thành bại hưng vong, báo ứng phân
+                    minh. Đệ tử xin bái tạ. Cấp cấp như luật lệnh”.
+                </div><img src="./img/anhnut.png" class="btn" style="width: 12vw;" id="drawHexagram">
+            </div>
+        </div>
+        <!--modal hiển thị quẻ đã rút được-->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div><img src="./img/hoadao.png" class="modal-content__flower" style="left: -60px;"><img
+                        src="./img/hoadao.png" class="modal-content__flower" style="right: -60px;"></div><img
+                    src="./img/que1.png" id="imgHexagram" style="width: 14vw;">
+                <div id="modal__text"></div>
+                <div>Với mỗi Quẻ gieo được có thể là xấu hoặc tốt, chúng ta cần chuẩn bị những việc cần thiết có thể ứng
+                    biến với sự việc, có kế hoạch cụ thể trong thời gian tiếp theo. Tuy nhiên, bản mệnh của con người do
+                    chính ta quyết định, những lời dự ngôn trong quẻ chỉ mang tính chất khích lệ, cảnh báo hoặc giúp quý
+                    vị tìm ra hướng đi đúng đắn cho tương lai, sự nghiệp của mình. Quý vị nếu muốn có giải đáp kỹ càng
+                    hơn xin liên hệ với bần đạo tại <a target="_blank" href="https://www.facebook.com/nvm4112">đây.</a>
+                </div><img src="./img/btnClose.png" style="width: 12vw;" class="btn" id="btnClose">
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../edge.js"></script>
+<script>
+    var countRandom;
+    var modal = document.getElementById('myModal');
+    var closeBtn = document.querySelector('#btnClose');
+    var textModal = document.getElementById('textModal');
+    var modalContent = document.querySelector('.modal-content');
+    document.getElementById('shakeTheHexagram').addEventListener('click', function () {
+        sidebar__title1.innerHTML = "Quẻ số";
+        sidebar__title2.innerHTML = '';
+        sidebar__text.innerHTML = '';
+        rightbar__text.innerHTML = '';
+        countRandom = getRandomInt(1, 32);
+        textModal.style.display = 'block';
+    })
+    document.getElementById('drawHexagram').addEventListener('click', function () {
+        textModal.style.display = 'none';
+        modal.style.display = 'block';
+        modalContent.style.animation = 'expandModal 1s';
+        modalContent.addEventListener('animationend', function () {
+            modalContent.style.animation = '';
+        });
+
+        switch (countRandom) {
+            case 1: imgHexagram.src = "./img/que1.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TINH CHẤN (Thượng Thượng)</h3>';
+                break;
+            case 2: imgHexagram.src = "./img/que2.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TÒNG CÁCH (Thượng Bình)</h3>';
+                break;
+            case 3: imgHexagram.src = "./img/que3.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>KHÚC TRỰC (Hạ Bình)</h3>';
+                break;
+            case 4: imgHexagram.src = "./img/que4.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>NHUẬN HẠ (Trung Bình)</h3>';
+                break;
+            case 5: imgHexagram.src = "./img/que5.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>VIÊM THƯỢNG (Hạ Hạ)</h3>';
+                break;
+            case 6: imgHexagram.src = "./img/que6.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>GIÁ BÁ (Hạ Bình)</h3>';
+                break;
+            case 7: imgHexagram.src = "./img/que7.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TIẾN CẦU (Thượng Thượng)</h3>';
+                break;
+            case 8: imgHexagram.src = "./img/que8.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TIẾN BẢO (Thượng Cát)</h3>';
+                break;
+            case 9: imgHexagram.src = "./img/que9.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>HOẠCH AN (Trung Cát)</h3>';
+                break;
+            case 10: imgHexagram.src = "./img/que10.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TOẠI  TÂM (Trung Cát)</h3>';
+                break;
+            case 11: imgHexagram.src = "./img/que11.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TAI TÁN (Đại Cát)</h3>';
+                break;
+            case 12: imgHexagram.src = "./img/que12.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>THƯỢNG TIẾN (Thượng Bình)</h3>';
+                break;
+            case 13: imgHexagram.src = "./img/que13.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>ÁM MUỘI (Hạ Hung)</h3>';
+                break;
+            case 14: imgHexagram.src = "./img/que14.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>AN TĨNH (Hạ Trung)</h3>';
+                break;
+            case 15: imgHexagram.src = "./img/que15.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>TRỞ TÍCH (Hạ Hung)</h3>';
+                break;
+            case 16: imgHexagram.src = "./img/que16.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>BẢO AN (Trung Cát)</h3>';
+                break;
+            case 17: imgHexagram.src = "./img/que17.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>HỶ CHÍ (Trung Cát)</h3>';
+                break;
+            case 18: imgHexagram.src = "./img/que18.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>DO DỰ (Hạ Hung)</h3>';
+                break;
+            case 19: imgHexagram.src = "./img/que19.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>PHONG NẪM (Trung Cát)</h3>';
+                break;
+            case 20: imgHexagram.src = "./img/que20.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>ĐẮC LỘC (Thượng Cát)</h3>';
+                break;
+            case 21: imgHexagram.src = "./img/que21.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>MINH HIỂN (Trung Cát)</h3>';
+                break;
+            case 22: imgHexagram.src = "./img/que22.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>PHÚC LỘC (Thượng Cát)</h3>';
+                break;
+            case 23: imgHexagram.src = "./img/que23.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>NGƯNG TRỆ (Hạ Hạ)</h3>';
+                break;
+            case 24: imgHexagram.src = "./img/que24.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>HIỂN ĐẠT (Thượng Cát)</h3>';
+                break;
+            case 25: imgHexagram.src = "./img/que25.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>PHÚC HẬU (Đại Cát)</h3>';
+                break;
+            case 26: imgHexagram.src = "./img/que26.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>BẢO TOÀN (Trung Bình)</h3>';
+                break;
+            case 27: imgHexagram.src = "./img/que27.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    'THÁI BÌNH (Đại Cát)</h3>';
+                break;
+            case 28: imgHexagram.src = "./img/que28.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>KHAI PHÁT (Trung Cát)</h3>';
+                break;
+            case 29: imgHexagram.src = "./img/que29.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>ƯNG DƯƠNG (Thượng Cát)</h3>';
+                break;
+            case 30: imgHexagram.src = "./img/que30.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>HẬU CÁT (Trung Bình)</h3>';
+                break;
+            case 31: imgHexagram.src = "./img/que31.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>ĐIÊN HIỂM (Hạ Hung)</h3>';
+                break;
+            case 32: imgHexagram.src = "./img/que32.png";
+                modal__text.innerHTML = 'Chúc mừng bạn đã nhận được quẻ số ' + countRandom +
+                    '<h3>VÔ SỐ (Hạ Hung)</h3>';
+                break;
+        }
+    })
+
+    closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+        switch (countRandom) {
+            case 1:
+                sidebar__title1.innerHTML = 'Quẻ số 1:';
+                sidebar__title2.innerHTML = 'TINH CHẤN (Thượng Thượng)';
+                sidebar__text.innerHTML = '<p>Thể phượng trình tường thuỵ</p>' +
+                    '<p>Kỳ lân giáng đế đô</p>' +
+                    '<p>Hoạ trừ nghênh phúc chí</p>' +
+                    '<p>Hỷ khí tự nhiên thư.</p>';
+                rightbar__text.innerHTML = '<p>Thân lên chức vị,</p>' +
+                    '<p>Cầu quan đắc lộc,</p>' +
+                    '<p>Mưu sự sẽ thành</p>' +
+                    '<p>Kiện tụng thì hòa.</p>' +
+                    '<p>Bệnh chóng lành</p>' +
+                    '<p>Cầu tài được 10 phần chắc</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Buôn bán phát tài</p>' +
+                    '<p>Nhà cửa yên ổn,</p>' +
+                    '<p>Thi cử đỗ đạt</p>';
+                break;
+            case 2:
+                sidebar__title1.innerHTML = 'Quẻ số 2:';
+                sidebar__title2.innerHTML = 'TÒNG CÁCH (Thượng Bình)';
+                sidebar__text.innerHTML = '<p>Tòng cách nghi canh biến</p>' +
+                    '<p>Thời lai hợp động thiên</p>' +
+                    '<p>Long môn ngư dược xuất</p>' +
+                    '<p>Phàm cốt tác thần tiên.</p>';
+                rightbar__text.innerHTML = '<p>Hành sự đắc lợi.</p>' +
+                    '<p>Cầu quan lộc danh phận có đạt</p>' +
+                    '<p>Thưa kiện nên sớm giải hoá</p>' +
+                    '<p>Người ốm đau chóng khỏi</p>' +
+                    '<p>Xuất hành bình thường</p>' +
+                    '<p>Cầu tài được 7 - 8 phần</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Vật mất khó tìm lại</p>' +
+                    '<p>Tìm người lâu mới thấy</p>';
+                break;
+            case 3:
+                sidebar__title1.innerHTML = 'Quẻ số 3:';
+                sidebar__title2.innerHTML = 'KHÚC TRỰC (Hạ Bình)';
+                sidebar__text.innerHTML = '<p>Động tác nhân phong tiện</p>' +
+                    '<p>Cầu mưu khả thác nhân</p>' +
+                    '<p>Nhược phùng Mậu Kỷ thổ</p>' +
+                    '<p>Sự sự đắc toại tâm.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được địa vị</p>' +
+                    '<p>Kiện tụng nên giải hoà</p>' +
+                    '<p>Bệnh chóng lành</p>' +
+                    '<p>Cầu tài chưa toại ý 7/10</p>' +
+                    '<p>Người đi đến nơi</p>' +
+                    '<p>Có thai sinh con trai</p>' +
+                    '<p>Gia trạch bình an</p>' +
+                    '<p>Hôn nhân thành nhưng hơi chậm</p>' +
+                    '<p>Di chuyển gặp tốt lành</p>' +
+                    '<p>Mộ tam đại phát</p>';
+                break;
+            case 4:
+                sidebar__title1.innerHTML = 'Quẻ số 4:';
+                sidebar__title2.innerHTML = 'NHUẬN HẠ (Trung Bình)';
+                sidebar__text.innerHTML = '<p>Thuyền phóng giang hồ nội</p>' +
+                    '<p>Than biên hoạch bảo đa</p>' +
+                    '<p>Cánh nghi tương đại dụng</p>' +
+                    '<p>Tai tán phúc lai cư.</p>';
+                rightbar__text.innerHTML = '<p>Nhân khẩu bình an</p>' +
+                    '<p>Làm việc nên cẩn thận.</p>' +
+                    '<p>Cầu tài được 6 đến 8 / 10.</p>' +
+                    '<p>Bệnh không đáng ngại</p>' +
+                    '<p>Có thai sinh con trai</p>' +
+                    '<p>Giao dịch kết quả tốt</p>' +
+                    '<p>Thưa kiện hòa tốt</p>' +
+                    '<p>Người đi xa có tin</p>' +
+                    '<p>Tìm người sẽ gặp</p>' +
+                    '<p>Thời vận chuyển tốt</p>';
+                break;
+            case 5:
+                sidebar__title1.innerHTML = 'Quẻ số 5:';
+                sidebar__title2.innerHTML = 'VIÊM THƯỢNG (Hạ Hạ)';
+                sidebar__text.innerHTML = '<p>Thử tiêm án nam phương</p>' +
+                    '<p>Tai ách bất khả đương</p>' +
+                    '<p>Quan tư đa bất lợi</p>' +
+                    '<p>Mục hạ hữu tai ương.</p>';
+                rightbar__text.innerHTML = '<p>Xuất hành bình thường</p>' +
+                    '<p>Mưu sự trước khó sau dễ</p>' +
+                    '<p>Cầu tài được 6 - 7 phần</p>' +
+                    '<p>Vật mất về phía đông nam</p>' +
+                    '<p>Có bệnh cầu phúc sẽ khỏi</p>' +
+                    '<p>Nhà cửa có dời đổi</p>' +
+                    '<p>Tìm người lâu mới thấy</p>' +
+                    '<p>Có thai sinh con gái</p>' +
+                    '<p>Bàn thờ và mái nhà động chạm chắp vá</p>' +
+                    '<p>Không nên động thổ .</p>';
+                break;
+            case 6:
+                sidebar__title1.innerHTML = 'Quẻ số 6:';
+                sidebar__title2.innerHTML = 'GIÁ BÁ (Hạ Bình)';
+                sidebar__text.innerHTML = '<p>Thả thủ quân tử phận</p>' +
+                    '<p>Vật dụng tiểu nhân ngôn</p>' +
+                    '<p>Phàm sự nghi cẩn thận</p>' +
+                    '<p>Tác phúc bảo an nhiên.</p>';
+                rightbar__text.innerHTML = '<p>Tính việc không thành</p>' +
+                    '<p>Đi xa lạc lối</p>' +
+                    '<p>Đi thi không đậu</p>' +
+                    '<p>Thưa kiện kém lý</p>' +
+                    '<p>Đau bệnh chưa lành</p>' +
+                    '<p>Hôn nhân chẳng thành</p>' +
+                    '<p>Cầu tài chẳng lợi.</p>';
+                break;
+            case 7:
+                sidebar__title1.innerHTML = 'Quẻ số 7:';
+                sidebar__title2.innerHTML = 'TIẾN CẦU (Thượng Thượng)';
+                sidebar__text.innerHTML = '<p>Quốc trị dân an thái</p>' +
+                    '<p>Gia tài tiệm tiên hưng</p>' +
+                    '<p>Tiến tài cầu vọng cát</p>' +
+                    '<p>Hữu phúc diệc bình an.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được địa vị</p>' +
+                    '<p>Mưu vọng thành đạt</p>' +
+                    '<p>Xuất hành gặp việc hay</p>' +
+                    '<p>Cầu tài được 10 phần</p>' +
+                    '<p>Tìm người sẽ gặp, người cần biết tin</p>' +
+                    '<p>Sinh con lành mạnh</p>' +
+                    '<p>Nhà cửa yên ổn</p>' +
+                    '<p>Hôn nhân hoà hợp</p>' +
+                    '<p>Dời đổi gặp dịp phát đạt</p>' +
+                    '<p>Mồ mả được yên ổn.</p>';
+                break;
+            case 8:
+                sidebar__title1.innerHTML = 'Quẻ số 8:';
+                sidebar__title2.innerHTML = 'TIẾN BẢO (Thượng Cát)';
+                sidebar__text.innerHTML = '<p>Hảo đức thừa thiên hựu</p>' +
+                    '<p>Môn chiêu hỷ khí tân</p>' +
+                    '<p>Hữu nhân tương trợ lực</p>' +
+                    '<p>Hoạnh phúc tận hoan hân.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được địa vị cao lộc hậu</p>' +
+                    '<p>Mưu sự có quý nhân giúp đỡ</p>' +
+                    '<p>Kiện thưa hoà tốt</p>' +
+                    '<p>Bệnh chóng lành</p>' +
+                    '<p>Cầu tài được 10 phần</p>' +
+                    '<p>Có thai sinh con trai</p>' +
+                    '<p>Nhà cửa tốt đẹp</p>' +
+                    '<p>Nhà cửa tốt đẹp</p>' +
+                    '<p>Mồ mả yên ổn không động địa gì</p>' +
+                    '<p>Mộ bà nội phát cho gia đình.</p>';
+                break;
+            case 9:
+                sidebar__title1.innerHTML = 'Quẻ số 9:';
+                sidebar__title2.innerHTML = 'HOẠCH AN (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Mộc hạ như đông thụ</p>' +
+                    '<p>Khô mộc vị khai hoa</p>' +
+                    '<p>Khán khán xuân sắc động</p>' +
+                    '<p>Tiệm tiệm phát manh nha.</p>';
+                rightbar__text.innerHTML = '<p>Tính việc có thể thành</p>' +
+                    '<p>Thưa kiện được hòa</p>' +
+                    '<p>Bệnh sắp khỏi</p>' +
+                    '<p>Cầu tài được mười phần</p>' +
+                    '<p>Hôn nhân có thể thành</p>' +
+                    '<p>Giao dịch có thể thành</p>' +
+                    '<p>Thai sinh con trai.</p>';
+                break;
+            case 10:
+                sidebar__title1.innerHTML = 'Quẻ số 10:';
+                sidebar__title2.innerHTML = 'TOẠI  TÂM (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Thời trị dung hợp khí</p>' +
+                    '<p>Suy tàn vật tái hưng</p>' +
+                    '<p>Cánh phùng vi vi vũ</p>' +
+                    '<p>Xuân sắc hựu hoàn sinh.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được chức</p>' +
+                    '<p>Tính việc sẽ thành</p>' +
+                    '<p>Thưa kiện hòa</p>' +
+                    '<p>Bệnh sẽ khỏi</p>' +
+                    '<p>Cầu tài được mười phần</p>' +
+                    '<p>Hôn nhân có thể thành</p>' +
+                    '<p>Giao dịch sẽ thành</p>' +
+                    '<p>Gia trạch đại cát.</p>';
+                break;
+            case 11:
+                sidebar__title1.innerHTML = 'Quẻ số 11:';
+                sidebar__title2.innerHTML = 'TAI TÁN (Đại Cát)';
+                sidebar__text.innerHTML = '<p>Tai tán phúc môn khai</p>' +
+                    '<p>Hỷ khí giáng lâm lai</p>' +
+                    '<p>Nguyệt hạ tương phùng khứ</p>' +
+                    '<p>Tu đương đắc hoạnh tài.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được ngay chức vụ tốt</p>' +
+                    '<p>Mưu việc thành công</p>' +
+                    '<p>Kiện tụng hoà hoãn</p>' +
+                    '<p>Cầu tài chắc được</p>' +
+                    '<p>Bệnh tật chóng lành</p>' +
+                    '<p>Gia trạch yên ổn</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Có thai sinh con trai</p>' +
+                    '<p>Phòng lửa củi, điện</p>' +
+                    '<p>Có lợi về giấy tờ.</p>';
+                break;
+            case 12:
+                sidebar__title1.innerHTML = 'Quẻ số 12:';
+                sidebar__title2.innerHTML = 'THƯỢNG TIẾN (Thượng Bình)';
+                sidebar__text.innerHTML = '<p>Tiến thủ đa tùy ý</p>' +
+                    '<p>Hàn nho y cẩm qui</p>' +
+                    '<p>Hữu nhân chiêm thử quái</p>' +
+                    '<p>Phàm sự nhậm ý vi.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan tốt ,đặc biệt thi đậu dễ dàng</p>' +
+                    '<p>Mưu việc toại nguyện</p>' +
+                    '<p>Dời đổi có lợi</p>' +
+                    '<p>Kiện tụng thắng lý</p>' +
+                    '<p>Bệnh hoạn chóng lành</p>' +
+                    '<p>Cầu tài được 9 phần</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Xuất hành có lợi</p>' +
+                    '<p>Gia trạch yên ổn</p>' +
+                    '<p>Mồ mả yên ổn.</p>';
+                break;
+            case 13:
+                sidebar__title1.innerHTML = 'Quẻ số 13:';
+                sidebar__title2.innerHTML = 'ÁM MUỘI (Hạ Hung)';
+                sidebar__text.innerHTML = '<p>Tỉnh để quan minh nguyệt</p>' +
+                    '<p>Kiến ảnh bất kiến hình</p>' +
+                    '<p>Tiền tài đa thất khứ</p>' +
+                    '<p>Cẩn thủ đắc an ninh.</p>';
+                rightbar__text.innerHTML = '<p>Mưu sự trước khó sau dễ</p>' +
+                    '<p>Xuất hành bình thường</p>' +
+                    '<p>Tìm người lâu mới thấy</p>' +
+                    '<p>Hôn nhân chậm thành</p>' +
+                    '<p>Của mất tìm ngay sẽ thấy</p>' +
+                    '<p>Có bệnh cầu phúc sẽ khỏi</p>' +
+                    '<p>Có thai sinh con gái</p>' +
+                    '<p>Xuất hành phương đông nam có quý nhân phù trợ</p>' +
+                    '<p>Cầu tài được 6, 7 phần</p>' +
+                    '<p>Gia trạch yên ổn không động địa gì.</p>';
+                break;
+            case 14:
+                sidebar__title1.innerHTML = 'Quẻ số 14:';
+                sidebar__title2.innerHTML = 'AN TĨNH (Hạ Trung)';
+                sidebar__text.innerHTML = '<p>Tự tâm đa bất túc</p>' +
+                    '<p>Cầu mưu vị đắc thành</p>' +
+                    '<p>Nhẫn nại phương vi phúc</p>' +
+                    '<p>Thủ phận miễn tai tinh.</p>';
+                rightbar__text.innerHTML = '<p>Mưu vọng có người giúp đỡ</p>' +
+                    '<p>Công danh chưa toại ý</p>' +
+                    '<p>Kiện tụng nên hoà</p>' +
+                    '<p>Đau bệnh bình thường không đáng lo</p>' +
+                    '<p>Người ra đi còn phải gắng bước</p>' +
+                    '<p>Cầu tài trước khó sau dễ</p>' +
+                    '<p>Có thai sinh trai</p>' +
+                    '<p>Mồ mả động phía Bắc</p>' +
+                    '<p>Hôn nhân cần có người giúp đỡ</p>' +
+                    '<p>Động long mạch, giếng, hồ, lấp đi chưa tạ.</p>';
+                break;
+            case 15:
+                sidebar__title1.innerHTML = 'Quẻ số 15:';
+                sidebar__title2.innerHTML = 'TRỞ  TÍCH  (Hạ Hung)';
+                sidebar__text.innerHTML = '<p>Khô mộc phùng sương tuyết</p>' +
+                    '<p>Cô châu ngộ đại phong</p>' +
+                    '<p>Kinh tâm vô khả vọng</p>' +
+                    '<p>Bá sự bất hanh thông.</p>';
+                rightbar__text.innerHTML = '<p>Nhà cửa nên giữ gìn như cũ</p>' +
+                    '<p>Xuất hành không nên đi xa, đi gần có lợi</p>' +
+                    '<p>Cầu tài được 5/6 phần</p>' +
+                    '<p>Tìm người lâu mới thấy</p>' +
+                    '<p>Mưu sự nhờ cậy người giúp đỡ sẽ được</p>' +
+                    '<p>Kiện tụng nên hoà</p>' +
+                    '<p>Có thai sinh con gái</p>' +
+                    '<p>Phòng bệnh tật</p>';
+                break;
+            case 16:
+                sidebar__title1.innerHTML = 'Quẻ số 16:';
+                sidebar__title2.innerHTML = 'BẢO  AN (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Nhật xuất chiêu tứ hải</p>' +
+                    '<p>Quang huy thiên hạ minh</p>' +
+                    '<p>Động dụng hoà hợp cát</p>' +
+                    '<p>Bá sự tổng giai thành.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan sẽ thành</p>' +
+                    '<p>Mưu việc cũng thành</p>' +
+                    '<p>Xuất hành có tài lợi</p>' +
+                    '<p>Kiện sự nên hoà</p>' +
+                    '<p>Đau bệnh thuyên giảm nhiều</p>' +
+                    '<p>Cầu tài hy vọng 8 phần</p>' +
+                    '<p>Có thai sinh trai</p>' +
+                    '<p>Hôn nhân tốt</p>' +
+                    '<p>Gia trạch yên ổn</p>' +
+                    '<p>Mồ mả được yên, không động địa gì.</p>';
+                break;
+            case 17:
+                sidebar__title1.innerHTML = 'Quẻ số 17:';
+                sidebar__title2.innerHTML = 'HỶ CHÍ (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Chúng ác tự tiêu diệt</p>' +
+                    '<p>Phước khí tự nhiên sinh</p>' +
+                    '<p>Như nhân hành ám dạ</p>' +
+                    '<p>Kim dĩ đắc thiên minh.</p>';
+                rightbar__text.innerHTML = '<p>Kiện tụng được hòa</p>' +
+                    '<p>Bệnh chóng lành</p>' +
+                    '<p>Vào cửa quan được tiền</p>' +
+                    '<p>Tính việc được thành</p>' +
+                    '<p>Tìm người sẽ gặp</p>' +
+                    '<p>Đi xa có lợi</p>' +
+                    '<p>Cấu tài được tám phần</p>' +
+                    '<p>Hôn nhân rất tốt.</p>';
+                break;
+            case 18:
+                sidebar__title1.innerHTML = 'Quẻ số 18:';
+                sidebar__title2.innerHTML = 'DO  DỰ (Hạ Hung)';
+                sidebar__text.innerHTML = '<p>Thử quái nội hoảng hốt</p>' +
+                    '<p>Tiền tài ám tiêu ma</p>' +
+                    '<p>Ân ái phản thành oán</p>' +
+                    '<p>Nhân tình bất tương hoà.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được địa vị</p>' +
+                    '<p>Xuất hành yên ổn</p>' +
+                    '<p>Mưu sự trước khó sau dễ</p>' +
+                    '<p>Cầu tài được 8 phần</p>' +
+                    '<p>Kiện tụng kéo dài nhưng kết quả khá</p>' +
+                    '<p>Bệnh sẽ lành nhờ phúc chủ</p>' +
+                    '<p>Người đi vài ngày nữa sẽ tới</p>' +
+                    '<p>Có thai sinh quý tử</p>' +
+                    '<p>Hôn nhân trước trắc trở sau mới thành</p>' +
+                    '<p>Gia trạch yên ổn.</p>';
+                break;
+            case 19:
+                sidebar__title1.innerHTML = 'Quẻ số 19:';
+                sidebar__title2.innerHTML = 'PHONG NẪM (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Căn thực chi tục mậu</p>' +
+                    '<p>Thu đa cách thức cao</p>' +
+                    '<p>Kinh doanh đa đắc lợi</p>' +
+                    '<p>Lan huệ tự bồng cao.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được hiển đạt lớn</p>' +
+                    '<p>Xuất hành thông thuận</p>' +
+                    '<p>Mưu việc có lợi</p>' +
+                    '<p>Kiện tụng hoà tốt</p>' +
+                    '<p>Đau bệnh không phải lo</p>' +
+                    '<p>Cầu tài được 8/10</p>' +
+                    '<p>Của mất còn quanh quẩn chưa mất</p>' +
+                    '<p>Có thai sinh con trai</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Gia trạch yên ổn.</p>';
+                break;
+            case 20:
+                sidebar__title1.innerHTML = 'Quẻ số 20:';
+                sidebar__title2.innerHTML = 'ĐẮC LỘC (Thượng Cát)';
+                sidebar__text.innerHTML = '<p>Cao danh cư lộc vị</p>' +
+                    '<p>Long điểu đắc đào sinh</p>' +
+                    '<p>Xuất nhập đa tài bảo</p>' +
+                    '<p>Cánh nghi viễn phương hành.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được địa vị</p>' +
+                    '<p>Đi xa càng có tài lộc</p>' +
+                    '<p>Mưu việc thành đạt</p>' +
+                    '<p>Kiện tụng nên hoà</p>' +
+                    '<p>Đau bệnh chóng lành</p>' +
+                    '<p>Cầu tài chắc 10 phần</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Có thai sinh con trai</p>' +
+                    '<p>Gia trạch yên ổn</p>' +
+                    '<p>Mồ mả tốt.</p>';
+                break;
+            case 21:
+                sidebar__title1.innerHTML = 'Quẻ số 21:';
+                sidebar__title2.innerHTML = 'MINH HIỂN (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Minh nguyệt thanh thiên thượng</p>' +
+                    '<p>Kim tiêu chiếu ỷ diên</p>' +
+                    '<p>Gia gia triêm đức trạch</p>' +
+                    '<p>Vạn lý tịnh vân yên.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan sẽ được</p>' +
+                    '<p>Mưu sự có cơ thành</p>' +
+                    '<p>Bệnh tật không lo gì</p>' +
+                    '<p>Hôn nhân thành</p>' +
+                    '<p>Cầu tài hy vọng 8/10</p>' +
+                    '<p>Của mất lại tìm được</p>' +
+                    '<p>Có thai sinh trai</p>' +
+                    '<p>Gia trạch yên ổn</p>' +
+                    '<p>Dời đổi cũng tốt</p>' +
+                    '<p>Mồ mả yên ổn.</p>';
+                break;
+            case 22:
+                sidebar__title1.innerHTML = 'Quẻ số 22:';
+                sidebar__title2.innerHTML = 'PHÚC LỘC (Thượng Cát)';
+                sidebar__text.innerHTML = '<p>Phúc lộc đắc an khang</p>' +
+                    '<p>Vinh hoa bảo tiến xương</p>' +
+                    '<p>Sở vi giai toại ý</p>' +
+                    '<p>Thiên lý cộng lan hương.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan đắc lộc</p>' +
+                    '<p>Mưu sự được thành</p>' +
+                    '<p>Kiện tụng hoà</p>' +
+                    '<p>Bệnh nhân sẽ khỏi</p>' +
+                    '<p>Cầu tài được 9 phần</p>' +
+                    '<p>Hôn nhân có thể thành</p>' +
+                    '<p>Giao dịch kết quả thành</p>' +
+                    '<p>Gia trạch đại cát.</p>';
+                break;
+            case 23:
+                sidebar__title1.innerHTML = 'Quẻ số 23:';
+                sidebar__title2.innerHTML = 'NGƯNG TRỆ (Hạ Hạ)';
+                sidebar__text.innerHTML = '<p>Doanh mã đăng trình khứ</p>' +
+                    '<p>Cơ nhân tẩu viễn đồ</p>' +
+                    '<p>Tiền trình đa trở ách</p>' +
+                    '<p>Thoái hậu phúc vô phương.</p>';
+                rightbar__text.innerHTML = '<p>Mưu sự chật vật mới xong</p>' +
+                    '<p>Hao tiền tốn của</p>' +
+                    '<p>Bị người gây chuyện miệng tiếng</p>' +
+                    '<p>Kiện tụng phải nhờ người khác mới xong</p>' +
+                    '<p>Hôn nhân trước khó sau dễ</p>' +
+                    '<p>Có thai sinh gái</p>' +
+                    '<p>Gia trạch động hướng Tây Nam</p>' +
+                    '<p>Mất của khó tìm</p>' +
+                    '<p>Người đi còn trở ngại chưa tới nơi</p>' +
+                    '<p>Đau bệnh phải làm phúc hầu an.</p>';
+                break;
+            case 24:
+                sidebar__title1.innerHTML = 'Quẻ số 24:';
+                sidebar__title2.innerHTML = 'HIỂN ĐẠT (Thượng Cát)';
+                sidebar__text.innerHTML = '<p>Tam tính câu tương bạn</p>' +
+                    '<p>Tường quang đắc kỳ sinh</p>' +
+                    '<p>Cánh nghi phần tạo hoá</p>' +
+                    '<p>Bách phúc tự nhiên hanh.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được phong chức</p>' +
+                    '<p>Có thai sinh trai</p>' +
+                    '<p>Cầu tài chắc được 9 phần</p>' +
+                    '<p>Hôn nhân thành</p>' +
+                    '<p>Xuất hành thuận buồm xuôi gió</p>' +
+                    '<p>Vật thất lạc có thể tìm thấy lấy lại</p>' +
+                    '<p>Tìm người sẽ gặp</p>' +
+                    '<p>Dời đổi tốt</p>' +
+                    '<p>Đau bệnh sẽ lành</p>' +
+                    '<p>Mưu sự thành công.</p>';
+                break;
+            case 25:
+                sidebar__title1.innerHTML = 'Quẻ số 25:';
+                sidebar__title2.innerHTML = 'PHÚC HẬU (Đại Cát)';
+                sidebar__text.innerHTML = '<p>Thử quái chiếm lục hoà</p>' +
+                    '<p>Cầu tài hỉ khí đa</p>' +
+                    '<p>Di nhân qui cố lý</p>' +
+                    '<p>Tự lạc đắc hoan ca.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan đắc lộc</p>' +
+                    '<p>Mưu sự được thành</p>' +
+                    '<p>Kiện tụng hoà</p>' +
+                    '<p>Bệnh nhân sẽ khỏi</p>' +
+                    '<p>Cầu tài được mười phần</p>' +
+                    '<p>Hôn nhân sẽ thành</p>' +
+                    '<p>Giao dịch được thành</p>' +
+                    '<p>Gia trạch đại cát.</p>';
+                break;
+            case 26:
+                sidebar__title1.innerHTML = 'Quẻ số 26:';
+                sidebar__title2.innerHTML = 'BẢO TOÀN (Trung Bình)';
+                sidebar__text.innerHTML = '<p>Phục dược tương thân bảo</p>' +
+                    '<p>Triền miên từ tụng liên</p>' +
+                    '<p>Bách quang nghi thủ cựu</p>' +
+                    '<p>Tác phước tự nhiên an.</p>';
+                rightbar__text.innerHTML = '<p>Xuất hành bình an</p>' +
+                    '<p>Mưu sự trước khó sau dễ</p>' +
+                    '<p>Đề phòng lời ăn tiếng nói</p>' +
+                    '<p>Kiện tụng được hòa</p>' +
+                    '<p>Cầu tài được sáu phần</p>' +
+                    '<p>Có thai sinh quí tử</p>' +
+                    '<p>Hôn nhân nên tiến hành</p>' +
+                    '<p>Giao dịch có cơ thành tựu.</p>';
+                break;
+            case 27:
+                sidebar__title1.innerHTML = 'Quẻ số 27:';
+                sidebar__title2.innerHTML = 'THÁI BÌNH (Đại Cát)';
+                sidebar__text.innerHTML = '<p>Lâm vũ tư miêu giá</p>' +
+                    '<p>Hà sầu bất bội thu</p>' +
+                    '<p>Tự nhiên tâm đắc lạc</p>' +
+                    '<p>An cư tổng vô ưu.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được lên chức</p>' +
+                    '<p>Người đi sắp trở về an lành</p>' +
+                    '<p>Kiện tụng được êm đẹp</p>' +
+                    '<p>Cầu tài hy vọng 8/10</p>' +
+                    '<p>Vật thất lạc còn đâu đó không mất</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Đau bệnh cứ cầu phúc sẽ khỏi</p>' +
+                    '<p>Có thai sinh trai</p>' +
+                    '<p>Mưu vong gặp thuận tiện</p>' +
+                    '<p>Mồ mả yên ổn.</p>';
+                break;
+            case 28:
+                sidebar__title1.innerHTML = 'Quẻ số 28:';
+                sidebar__title2.innerHTML = 'KHAI PHÁT (Trung Cát)';
+                sidebar__text.innerHTML = '<p>Bạng mục tru trung xuất</p>' +
+                    '<p>Thạch nội ngọc ái quang</p>' +
+                    '<p>Tiến tài cầu vọng cát</p>' +
+                    '<p>Hữu hoạ bất thành ương.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được chức nhỏ</p>' +
+                    '<p>Xuất hành bình an</p>' +
+                    '<p>Người đi tự trở về</p>' +
+                    '<p>Kiện tụng nên hoà</p>' +
+                    '<p>Cầu tài được sáu phần</p>' +
+                    '<p>Hôn nhân có thể thành</p>' +
+                    '<p>Bệnh nhân sắp khỏi</p>' +
+                    '<p>Giao dịch trước khó sau dễ.</p>';
+                break;
+            case 29:
+                sidebar__title1.innerHTML = 'Quẻ số 29:';
+                sidebar__title2.innerHTML = 'ƯNG DƯƠNG (Thượng Cát)';
+                sidebar__text.innerHTML = '<p>Thiên binh tru tặc khấu</p>' +
+                    '<p>Tinh kỳ đắc thắng hồi</p>' +
+                    '<p>Công huân vi tướng soái</p>' +
+                    '<p>Môn đệ hữu quang huy.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan được địa vị</p>' +
+                    '<p>Cầu tài hy vọng 8 phần</p>' +
+                    '<p>Kiện tụng hoà tốt</p>' +
+                    '<p>Có thai sinh trai</p>' +
+                    '<p>Hôn nhân thành tựu</p>' +
+                    '<p>Mưu sự thành công như ý</p>' +
+                    '<p>Dời đổi trót lọt tốt lành</p>' +
+                    '<p>Đau bệnh không hề gì</p>' +
+                    '<p>Gia trạch bình an</p>' +
+                    '<p>Nhưng tìm người thì lâu mới gặp.</p>';
+                break;
+            case 30:
+                sidebar__title1.innerHTML = 'Quẻ số 30:';
+                sidebar__title2.innerHTML = 'HẬU CÁT (Trung Bình)';
+                sidebar__text.innerHTML = '<p>Lý bạc đăng băng địa</p>' +
+                    '<p>Nguy phúng đắc độ thời</p>' +
+                    '<p>Trùng trùng ưu hiểm quá</p>' +
+                    '<p>Xuân sắc tự phương phi.</p>';
+                rightbar__text.innerHTML = '<p>Đi thi được kết quả nhỏ</p>' +
+                    '<p>Xuất hành bình an</p>' +
+                    '<p>Kiện tụng nên hoà</p>' +
+                    '<p>Cầu tài được sáu phần</p>' +
+                    '<p>Có thai sinh con gái</p>' +
+                    '<p>Tìm người chẳng gặp</p>' +
+                    '<p>Tính việc chẳng thành</p>' +
+                    '<p>Hôn nhân không thành</p>' +
+                    '<p>Giao dịch bất lợi.</p>';
+                break;
+            case 31:
+                sidebar__title1.innerHTML = 'Quẻ số 31:';
+                sidebar__title2.innerHTML = 'ĐIÊN HIỂM (Hạ Hung)';
+                sidebar__text.innerHTML = '<p>Điều địa đồ trung lữ</p>' +
+                    '<p>Đồ trình nhật lạc san</p>' +
+                    '<p>Kinh tâm vô sở thác</p>' +
+                    '<p>Tiền hậu tả hữu nan.</p>';
+                rightbar__text.innerHTML = '<p>Mưu sự nhờ cậy người giúp mới nên</p>' +
+                    '<p>Xuất hành cẩn thận</p>' +
+                    '<p>Cầu tài được sáu phần</p>' +
+                    '<p>Vật thất lạc khó tìm thấy</p>' +
+                    '<p>Người đi chưa đến nơi</p>' +
+                    '<p>Hôn nhân gặp trắc trở</p>' +
+                    '<p>Bệnh hoạn phải cầu phúc mới khỏi</p>' +
+                    '<p>.</p>';
+                break;
+            case 32:
+                sidebar__title1.innerHTML = 'Quẻ số 32:';
+                sidebar__title2.innerHTML = 'VÔ SỐ (Hạ Hung)';
+                sidebar__text.innerHTML = '<p>Trần lý thanh đồng việt</p>' +
+                    '<p>Mỹ ngọc tư ư nê</p>' +
+                    '<p>Hà thời trùng xuất thế</p>' +
+                    '<p>Tái đắc hiển quang huy.</p>';
+                rightbar__text.innerHTML = '<p>Cầu quan chờ lâu mới được</p>' +
+                    '<p>Kiện tụng đuối lý</p>' +
+                    '<p>Hôn nhân trắc trở</p>' +
+                    '<p>Người đi xa bị ốm đau</p>' +
+                    '<p>Dời đổi chưa tốt</p>' +
+                    '<p>Vật mất khó tìm thấy</p>' +
+                    '<p>Mưu sự nhờ người giúp mới thành</p>' +
+                    '<p>Có thai sinh đẻ vất vả</p>' +
+                    '<p>Không nên đi xa</p>' +
+                    '<p>Cầu tài chưa toại ý.</p>';
+                break;
+        }
+    });
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+</script>
+
+</html>
